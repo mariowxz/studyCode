@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<script>
+			/*发布订阅模式的不同在于，观察者订阅者和订阅目标是联系在一起的，也就是王、李、张都是熟人，互相有联系。
+			
+			而在发布订阅模式中，称为发布者的消息发送者不会将消息直接发送给订阅者，这意味着发布者和订阅者不知道彼此的存在。在发布者和订阅者之间存在第三个组件，称为消息代理或调度中心或中间件，它维持着发布者和订阅者之间的联系，过滤所有发布者传入的消息并相应地分发它们给订阅者。
+			
+			也就是说，现在的小王、小李，开始在报社订阅报纸了，张三也把自己的报纸卖到报社，由报社进行销售。这个报社，就是调度中心。订阅和发布事件，由这个调度中心统一管理。*/
+			let Topic = {
+			    topics: {},
+			    subscribe(topic, fn) {
+			        if (!this.topics[topic]) {
+			            this.topics[topic] = []
+			        }
+			        this.topics[topic].push(fn)
+			    },
+			    publish(topic, money) {
+			        if (this.topics[topic]) {
+			            for (let fn of this.topics[topic]) {
+			                fn(money)
+			            }
+			        }
+			    }
+			}
+			
+			function Person(name) {
+			    this.name = name
+			}
+			
+			Person.prototype.subscribe = function (topic, fn) {
+			    console.log('订阅者' + this.name + '订阅了' + topic )
+			    Topic.subscribe(topic, fn)
+			}
+			
+			Person.prototype.publish = function (topic, money) {
+			    console.log('发布者' + this.name + '发布了' + topic )
+			    Topic.publish(topic, money)
+			}
+			
+			let p1 = new Person('p1')
+			let p2 = new Person('p2')
+			let p3 = new Person('p3')
+			
+			p1.subscribe('北京日报',(money)=>{
+			    console.log(money >= 100 ? '太贵了，不买' : '订阅');
+			})
+			
+			p2.subscribe('上海日报',(money)=>{
+			    console.log(money >= 200 ? '太贵了，不买' : '订阅');
+			})
+			
+			p2.subscribe('北京日报',(money)=>{
+			    console.log('订阅');
+			})
+			
+			p3.publish('北京日报', 198)
+		</script>
+	</body>
+</html>

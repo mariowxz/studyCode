@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<script>
+			let arrPromise = []
+			let userList = [1,2,3,4,5]
+			for (let i = 0; i < userList.length; i++) {
+				arrPromise.push(new Promise((resolve, reject) => {
+					setTimeout(() => {
+						resolve(i)
+					}, 1000)
+				}))
+			}
+			Promise.all(arrPromise).then((result) => {
+				console.log(result)
+			}).catch((error) => {
+				console.log(error)
+			})
+
+			// let p1 = new Promise((resolve, reject) => {
+			// 	setTimeout(() => {
+			// 		resolve('p1')
+			// 	}, 1000)
+			// })
+
+			// let p2 = new Promise((resolve, reject) => {
+			// 	setTimeout(() => {
+			// 		resolve('p2')
+			// 	}, 1500)
+			// })
+
+			// let p3 = new Promise((resolve, reject) => {
+			// 	setTimeout(() => {
+			// 		reject('p3')
+			// 	}, 2000)
+			// })
+
+			// // let p3 = Promse.reject('失败')
+
+			// Promise.all([p1, p2, p3]).then((result) => {
+			// 	console.log(result) //['成功了', 'success']
+			// }).catch((error) => {
+			// 	console.log(error)
+			// })
+		</script>
+	</body>
+</html>
